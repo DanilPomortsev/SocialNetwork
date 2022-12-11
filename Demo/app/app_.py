@@ -3,14 +3,23 @@ from fastapi import Form
 from pydantic import BaseModel
 import pymongo
 from typing import List
+from fastapi.middleware.cors import CORSMiddleware
 
-db_client = pymongo.MongoClient("mongodb://pythonproject17-db-1")
+db_client = pymongo.MongoClient("mongodb://localhost:27017")
 db = db_client["root"]
 post = db["post"]
 
-
-
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 class Post(BaseModel):
     sting_value: str = "value"
     int_value: int = 0
